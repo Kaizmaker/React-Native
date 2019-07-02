@@ -251,5 +251,32 @@ const course = [
     author: "Kaiz Zheng",
     avatar: require("./assets/Bitmap.png"),
     caption: "APP ICON  黑白相間，自然簡單"
+  },
+  {
+    // title: "prototype in Figma",
+    // subtitle: "APP ICON",
+    image: require("./assets/a6.png"),
+    // logo: require("./assets/logo-figma.png"),
+    author: "Kaiz Zheng",
+    avatar: require("./assets/Bitmap.png"),
+    caption: "信用卡頁面  一卡在手，希望無窮"
+  },
+  {
+    // title: "prototype in Figma",
+    // subtitle: "APP ICON",
+    image: require("./assets/a7.png"),
+    // logo: require("./assets/logo-figma.png"),
+    author: "Kaiz Zheng",
+    avatar: require("./assets/Bitmap.png"),
+    caption: "404  明確、提示"
+  },
+  {
+    // title: "prototype in Figma",
+    // subtitle: "APP ICON",
+    image: require("./assets/a8.jpg"),
+    // logo: require("./assets/logo-figma.png"),
+    author: "Kaiz Zheng",
+    avatar: require("./assets/Bitmap.png"),
+    caption: "我的2019形象設計 黎明前的黑暗"
   }
 ];
