@@ -11,12 +11,14 @@ import { Icon } from "expo";
 import { NotificationIcon } from "./components/Icons";
 import Logo from "./components/Logo";
 import Course from "./components/Course";
+import Menu from "./components/Menu";
 
 // 會稱自己為ＡＰＰ｀
 export default class App extends React.Component {
   render() {
     return (
       <Container>
+        <Menu />
         <SafeAreaView>
           <ScrollView>
             <TitleBar>
