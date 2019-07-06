@@ -21,10 +21,11 @@ import Logo from "../components/Logo";
 import Course from "../components/Course";
 import Menu from "../components/Menu";
 import { connect } from "react-redux";
+import Avatar from "../components/Avatar";
 
 //呼叫函式 export default 也要添加
 function mapStateToProps(state) {
-  return { action: state.action };
+  return { action: state.action, name: state.name };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -38,6 +39,10 @@ function mapDispatchToProps(dispatch) {
 
 // 會稱自己為 HomeScreen
 class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+
   state = {
     scale: new Animated.Value(1),
     opacity: new Animated.Value(1)
@@ -97,10 +102,12 @@ class HomeScreen extends React.Component {
                   onPress={this.props.openMenu}
                   style={{ position: "absolute", top: 0, left: 20 }}
                 >
-                  <Avatar source={require("../assets/Bitmap.png")} />
+                  {/* ＊＊＊＊＊＊＊＊＊連接 uinames API來測試更換頭像 ＊＊＊＊＊＊＊＊＊*/}
+
+                  <Avatar />
                 </TouchableOpacity>
                 <Title>歡迎回來,</Title>
-                <Name>凱中</Name>
+                <Name>{this.props.name}</Name>
                 {/* 置入 Ionicons Icon*/}
                 {/* <Icon.Ionicons
                 name="ios-notifications"
@@ -144,14 +151,21 @@ class HomeScreen extends React.Component {
                 {/* <Card /> */}
                 {/* 使Card props */}
                 {cards.map((card, index) => (
-                  <Card
+                  <TouchableOpacity
                     key={index}
-                    title={card.title}
-                    image={card.image}
-                    caption={card.caption}
-                    logo={card.logo}
-                    subtitle={card.subtitle}
-                  />
+                    //點擊時切換到Section頁面
+                    onPress={() => {
+                      this.props.navigation.push("Section");
+                    }}
+                  >
+                    <Card
+                      title={card.title}
+                      image={card.image}
+                      caption={card.caption}
+                      logo={card.logo}
+                      subtitle={card.subtitle}
+                    />
+                  </TouchableOpacity>
                 ))}
                 {/* <Card
                 title="Props Components"
@@ -200,17 +214,11 @@ const Subtitle = styled.Text`
   text-transform: uppercase;
 `;
 
-const Avatar = styled.Image`
-  width: 44px;
-  height: 44px;
-  background: black;
-  border-radius: 22px;
-`;
-
 const Container = styled.View`
   flex: 1;
   background-color: #231c3f;
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
