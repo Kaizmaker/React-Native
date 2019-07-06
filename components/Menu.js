@@ -14,6 +14,23 @@ import { Animated, TouchableOpacity, Dimensions } from "react-native";
 //匯入Ionicon
 import { Icon } from "expo";
 import MenuItem from "./Menultem";
+//使用reducx
+import { connect } from "react-redux";
+
+//函式
+function mapStateToProps(state) {
+  return { action: state.action };
+}
+
+//函式
+function mapDispatchToProps(dispatch) {
+  return {
+    closeMenu: () =>
+      dispatch({
+        type: "CLOSE_MENU"
+      })
+  };
+}
 
 //設置變數screenHeight 運用在 23 / 34 toValue
 const screenHeight = Dimensions.get("window").height;
@@ -23,17 +40,32 @@ class Menu extends React.Component {
   state = {
     top: new Animated.Value(screenHeight)
   };
-  //彈出
+
+  //當我家載時呼叫toggleMenu
   componentDidMount() {
-    Animated.spring(this.state.top, {
-      toValue: 0
-    }).start();
+    this.toggleMenu();
   }
-  //關閉
+  //*****---------------------------------------------**************
+  // componentDidMount 只會加載一次 所以參數更新呼叫toggleMenu不會有動作 故新增componentDidUpdate
+  componentDidUpdate() {
+    this.toggleMenu();
+  }
+
+  //*****---------------------------------------------**************
+  //彈出 與 關閉的條件判斷式 呼叫action來自Redux數據
   toggleMenu = () => {
-    Animated.spring(this.state.top, {
-      toValue: screenHeight
-    }).start();
+    if (this.props.action == "openMenu") {
+      Animated.spring(this.state.top, {
+        // toggleMenu彈出時不要滿版要下面一點 不要設０
+        toValue: 54
+      }).start();
+    }
+
+    if (this.props.action == "closeMenu") {
+      Animated.spring(this.state.top, {
+        toValue: screenHeight
+      }).start();
+    }
   };
 
   render() {
@@ -46,7 +78,8 @@ class Menu extends React.Component {
         </Cover>
         {/* 用TouchableOpacity包裝 : 他是可點擊的函式庫*/}
         <TouchableOpacity
-          onPress={this.toggleMenu}
+          /* 呼叫closeMenu :*/
+          onPress={this.props.closeMenu}
           style={{
             position: "absolute",
             top: 120,
@@ -76,7 +109,11 @@ class Menu extends React.Component {
   }
 }
 
-export default Menu;
+//多個輸出狀態用 （）表示 函式也要輸出
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Menu);
 
 const Image = styled.Image`
   position: absolute;
@@ -128,7 +165,7 @@ const Cover = styled.View`
 //要導入函式變數 ： ＄{screenHeight};
 const Content = styled.View`
   height: ${screenHeight};
-  background: #f0f3f5;
+  background: #231c3f;
   padding: 50px;
 `;
 

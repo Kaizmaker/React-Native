@@ -33,13 +33,13 @@ const Content = styled.View`
 `;
 
 const Title = styled.Text`
-  color: #3c4560;
+  color: white;
   font-size: 24px;
   font-weight: 600;
 `;
 
 const Text = styled.Text`
-  color: #3c4560;
+  color: #f0f0f0;
   font-weight: 600;
   opacity: 0.6;
   margin-top: 5px;
