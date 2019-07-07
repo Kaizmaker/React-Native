@@ -8,7 +8,23 @@ import {
 import { BlurView } from "expo";
 import Success from "./Success";
 import Loading from "./Loading";
-import { Alert } from "react-native";
+import { Alert, Animated, Dimensions } from "react-native";
+import { connect } from "react-redux";
+
+const screenHeight = Dimensions.get("window").height;
+
+function mapStateToProps(state) {
+  return { action: state.action };
+}
+
+function maoDispatchToProps(dispatch) {
+  return {
+    closeLogin: () =>
+      dispatch({
+        type: "CLOSE_LOGIN"
+      })
+  };
+}
 
 class ModalLogin extends React.Component {
   //*******設定email 密碼輸入時發生變化 */
@@ -18,8 +34,25 @@ class ModalLogin extends React.Component {
     iconEmail: require("../assets/icon-email.png"),
     IconPassword: require("../assets/icon-password.png"),
     isSuccessful: false,
-    isLoading: false
+    isLoading: false,
+    top: new Animated.Value(screenHeight)
   };
+
+  componentDidUpdate() {
+    if (this.props.action === "openLogin") {
+      Animated.timing(this.state.top, {
+        toValue: 0,
+        duration: 0
+      }).start();
+    }
+    if (this.props.action === "closeLogin") {
+      Animated.timing(this.state.top, {
+        toValue: screenHeight,
+        duration: 0
+      }).start();
+    }
+  }
+
   //可到expo確認 信箱與密碼 訊息
   handleLogin = () => {
     console.log(this.state.email, this.state.password);
@@ -28,6 +61,12 @@ class ModalLogin extends React.Component {
     setTimeout(() => {
       this.setState({ isLoading: false });
       this.setState({ isSuccessful: true });
+
+      Alert.alert("恭喜", "登入成功");
+      setTimeout(() => {
+        this.props.closeLogin();
+        this.setState({ isSuccessful: false });
+      }, 1000);
     }, 2000);
   };
 
@@ -48,11 +87,12 @@ class ModalLogin extends React.Component {
   // *****點擊背景會取消鍵盤
   tapBackground = () => {
     Keyboard.dismiss();
+    this.props.closeLogin();
   };
 
   render() {
     return (
-      <Container>
+      <AnimatedContainer style={{ top: this.state.top }}>
         <TouchableWithoutFeedback onPress={this.tapBackground}>
           <BlurView
             tint="default"
@@ -90,11 +130,14 @@ class ModalLogin extends React.Component {
         </Modal>
         <Success isActive={this.state.isSuccessful} />
         <Loading isActive={this.state.isLoading} />
-      </Container>
+      </AnimatedContainer>
     );
   }
 }
-export default ModalLogin;
+export default connect(
+  mapStateToProps,
+  maoDispatchToProps
+)(ModalLogin);
 
 const Container = styled.View`
   position: absolute;
@@ -106,6 +149,8 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 const Modal = styled.View`
   width: 300px;

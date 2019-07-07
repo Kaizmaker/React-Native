@@ -70,6 +70,10 @@ function mapDispatchToProps(dispatch) {
     openMenu: () =>
       dispatch({
         type: "OPEN_MENU"
+      }),
+    openLogin: () =>
+      dispatch({
+        type: "OPEN_LOGIN"
       })
   };
 }
@@ -136,7 +140,7 @@ class HomeScreen extends React.Component {
               <TitleBar>
                 {/* 可以點選 使用TouchableOpacity 添加至react-native */}
                 <TouchableOpacity
-                  onPress={this.props.openMenu}
+                  onPress={this.props.openLogin}
                   style={{ position: "absolute", top: 0, left: 20 }}
                 >
                   {/* ********連接 uinames API來測試更換頭像 ********/}
