@@ -65,7 +65,7 @@ const Container = styled.View`
 `;
 
 const Cover = styled.View`
-  height: 375px;
+  height: 800px;
 `;
 
 const Image = styled.Image`

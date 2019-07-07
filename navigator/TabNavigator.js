@@ -35,7 +35,7 @@ HomeStack.navigationOptions = ({ navigation }) => {
 
   return {
     tabBarVisible,
-    tabBarLabel: "Home",
+    tabBarLabel: "首頁",
     tabBarIcon: ({ focused }) => (
       <Icon.Ionicons
         name="ios-home"
@@ -51,7 +51,7 @@ const CoursesStack = createStackNavigator({
 });
 
 CoursesStack.navigationOptions = {
-  tabBarLabel: "Course",
+  tabBarLabel: "文章",
   tabBarIcon: ({ focused }) => (
     <Icon.Ionicons
       name="ios-albums"
@@ -66,7 +66,7 @@ const ProjectsStack = createStackNavigator({
 });
 
 ProjectsStack.navigationOptions = {
-  tabBarLabel: "Projects",
+  tabBarLabel: "作品",
   tabBarIcon: ({ focused }) => (
     <Icon.Ionicons
       name="ios-folder"
@@ -78,8 +78,8 @@ ProjectsStack.navigationOptions = {
 
 const TabNavigator = createBottomTabNavigator({
   HomeStack,
-  CoursesStack,
-  ProjectsStack
+  ProjectsStack,
+  CoursesStack
 });
 
 export default TabNavigator;
