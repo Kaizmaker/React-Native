@@ -23,6 +23,42 @@ import Menu from "../components/Menu";
 import { connect } from "react-redux";
 import Avatar from "../components/Avatar";
 
+//****引入 graphql  失敗*********
+// import gql from "graphql-tag";
+
+// const CardsQuery = gql`
+//   {
+//     cardsCollection {
+//       items {
+//         title
+//         subtitle
+//         image {
+//           title
+//           description
+//           contentType
+//           fileName
+//           size
+//           url
+//           width
+//           height
+//         }
+//         subtitle
+//         caption
+//         logo {
+//           title
+//           description
+//           contentType
+//           fileName
+//           size
+//           url
+//           width
+//           height
+//         }
+//       }
+//     }
+//   }
+// `;
+
 //呼叫函式 export default 也要添加
 function mapStateToProps(state) {
   return { action: state.action, name: state.name };
@@ -102,7 +138,7 @@ class HomeScreen extends React.Component {
                   onPress={this.props.openMenu}
                   style={{ position: "absolute", top: 0, left: 20 }}
                 >
-                  {/* ＊＊＊＊＊＊＊＊＊連接 uinames API來測試更換頭像 ＊＊＊＊＊＊＊＊＊*/}
+                  {/* ********連接 uinames API來測試更換頭像 ********/}
 
                   <Avatar />
                 </TouchableOpacity>
@@ -148,14 +184,28 @@ class HomeScreen extends React.Component {
                 // 把難看的水平條隱藏
                 showsHorizontalScrollIndicator={false}
               >
+                {/* **********加載測試失敗  */}
+
+                {/* <Query query={CardsQuery}>
+                  {({ loading, error, data }) => {
+                    if (loading) return <Message>Loading...</Message>;
+                    console.log(data.cardsCollection.items);
+                    return <Message />;
+                  }}
+                </Query> */}
+
                 {/* <Card /> */}
                 {/* 使Card props */}
                 {cards.map((card, index) => (
                   <TouchableOpacity
                     key={index}
                     //點擊時切換到Section頁面
+                    //********* 使section能接收card組件 *******/
+
                     onPress={() => {
-                      this.props.navigation.push("Section");
+                      this.props.navigation.push("Section", {
+                        section: card
+                      });
                     }}
                   >
                     <Card
@@ -199,6 +249,8 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(HomeScreen);
+
+const Message = styled.Text``;
 
 const RootView = styled.View`
   background: white;
@@ -270,6 +322,8 @@ const logos = [
 ];
 
 // 使用數據組來快速建置cards 如同API
+
+//******** 運用 contentful 來同步管理 ************
 
 const cards = [
   {
